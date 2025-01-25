@@ -52,7 +52,7 @@ class SinglyLinkedList<T> : ImperialMutableList<T> {
             previous = current
             current = current!!.next
         }
-        return previous to current!!
+        return Pair(previous, current!!)
     }
     private fun unlink(previous: Node<T>?, current: Node<T>) {
         if (previous == null)
@@ -117,4 +117,51 @@ class SinglyLinkedList<T> : ImperialMutableList<T> {
         sb.append("]")
         return sb.toString()
     }
+
+    // iterator using an anonymous object
+    override fun iterator(): Iterator<T> = object : Iterator<T> {
+        private var nextNode: Node<T>? = head
+        override fun hasNext(): Boolean = nextNode != null
+        override fun next(): T {
+            if (!hasNext())
+                throw NoSuchElementException()
+            val result: T = nextNode!!.element
+            nextNode = nextNode!!.next
+            return result
+        }
+    }
+
+    // iterator using an inner class
+//    private inner class SinglyLinkedListIterator : Iterator<T> {
+//        private var nextNode: Node<T>? = head
+//        override fun hasNext(): Boolean = nextNode != null
+//        override fun next(): T {
+//            if (!hasNext())
+//                throw NoSuchElementException()
+//            val result: T = nextNode!!.element
+//            nextNode = nextNode!!.next
+//            return result
+//        }
+//    }
+//    override fun iterator(): Iterator<T> = this.SinglyLinkedListIterator()
+
+    // iterator using a nested class
+//    private class SinglyLinkedListIterator<T>(
+//        targetList: SinglyLinkedList<T>
+//    ) : Iterator<T> {
+//        private var nextNode: Node<T>? = targetList.head
+//        override fun hasNext(): Boolean = nextNode != null
+//        override fun next(): T {
+//            if (!hasNext())
+//                throw NoSuchElementException()
+//            val result: T = nextNode!!.element
+//            nextNode = nextNode!!.next
+//            return result
+//        }
+//    }
+//    override fun iterator(): Iterator<T> = SinglyLinkedListIterator(this)
 }
+
+// defining iterator using a separate class in this file, but
+// outside `SinglyLinkedList` is not possible due to the access
+// modifiers used on `head` and `Node<T>`

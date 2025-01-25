@@ -1,6 +1,5 @@
 package collections
 
 fun main() {
-    val myList = FixedCapacityList<Int>(10)
-
+    println("Built successfully")
 }

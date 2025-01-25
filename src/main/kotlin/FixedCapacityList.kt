@@ -65,5 +65,8 @@ class FixedCapacityList<T>(capacity: Int) : ImperialMutableList<T> {
 
     override fun toString(): String =
         elements.slice(0..<size).joinToString(", ", "[", "]")
+
+    override fun iterator(): Iterator<T> = ArrayListIterator<T>(this)
 }
+
 

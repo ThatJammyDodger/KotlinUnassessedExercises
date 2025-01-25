@@ -1,5 +1,7 @@
 package collections
 
+import kotlin.math.max
+
 private val DEFAULT_INITIAL_CAPACITY: Int = 16
 
 class ResizingArrayList<T>(private val initialCapacity: Int) : ImperialMutableList<T> {
@@ -18,7 +20,7 @@ class ResizingArrayList<T>(private val initialCapacity: Int) : ImperialMutableLi
     private fun clearedArray(): Array<T?> =
         arrayOfNulls<Any?>(initialCapacity) as Array<T?>
 
-    override fun add(index: Int, element: T): Unit {
+    override fun add(index: Int, element: T) {
         if (size >= elements.size || index !in 0..size)
             throw IndexOutOfBoundsException()
         if (size + 1 > elements.size)
@@ -44,7 +46,7 @@ class ResizingArrayList<T>(private val initialCapacity: Int) : ImperialMutableLi
             elements[index] = element
     }
 
-    override fun clear(): Unit {
+    override fun clear() {
         size = 0
         elements = clearedArray()
     }
@@ -78,4 +80,33 @@ class ResizingArrayList<T>(private val initialCapacity: Int) : ImperialMutableLi
 
     override fun toString(): String =
         elements.slice(0..<size).joinToString(", ", "[", "]")
+
+    override fun iterator(): Iterator<T> = ArrayListIterator<T>(this)
+
+    override fun addAll(other: ImperialMutableList<T>) {
+        val newSize = size + other.size
+        if (newSize > elements.size) {
+            val newCapacity = max(newSize, 2 * elements.size)
+            elements = elements.copyOf(newCapacity)
+        }
+        for (i in 0..<other.size)
+            elements[size + i] = other[i]
+        size = newSize
+    }
+
+    fun addAll(index: Int, other: ImperialMutableList<T>) {
+        if (index !in 0..size)
+            throw IndexOutOfBoundsException()
+        val newSize = size + other.size
+        if (newSize > elements.size) {
+            val newCapacity = max(newSize, 2 * elements.size)
+            elements = elements.copyOf(newCapacity)
+        }
+        for (i in size - 1 downTo index) {
+            elements[i + other.size] = elements[i]
+        }
+        for (i in index..<index + other.size)
+            elements[i] = other[i - index]
+        size = newSize
+    }
 }
