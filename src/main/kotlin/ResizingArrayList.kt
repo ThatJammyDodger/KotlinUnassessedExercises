@@ -94,7 +94,7 @@ class ResizingArrayList<T>(private val initialCapacity: Int) : ImperialMutableLi
         for (i in size - 1 downTo index) {
             elements[i + other.size] = elements[i]
         }
-        var i: Int = 0
+        var i = 0
         for (element in other) {
             elements[index + i] = element
             i++

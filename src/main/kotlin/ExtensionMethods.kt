@@ -30,4 +30,4 @@ fun List<Boolean>.allFalse() =
 
 // example of defining a custom infix function
 // as one of the exercises wanted to know about
-infix fun <T> T.const(other: Any): T = this
+infix fun <T> T.doNothing(other: Any): T = this

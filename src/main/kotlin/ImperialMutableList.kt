@@ -17,7 +17,7 @@ interface ImperialMutableList<T> {
     fun addAll(index: Int, other: ImperialMutableList<T>) {
         if (index !in 0..size)
             throw IndexOutOfBoundsException()
-        var i: Int = 0
+        var i = 0
         for (element in other) {
             add(index + i, element)
             i++
