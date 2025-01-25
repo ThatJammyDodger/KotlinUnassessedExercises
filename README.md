@@ -1,0 +1,1 @@
+These are my responses to the unassessed exercises as set by Prof. Alistair Donaldson in the Kotlin section of COMP40009.
