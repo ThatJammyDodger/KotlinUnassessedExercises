@@ -83,18 +83,7 @@ class ResizingArrayList<T>(private val initialCapacity: Int) : ImperialMutableLi
 
     override fun iterator(): Iterator<T> = ArrayListIterator<T>(this)
 
-    override fun addAll(other: ImperialMutableList<T>) {
-        val newSize = size + other.size
-        if (newSize > elements.size) {
-            val newCapacity = max(newSize, 2 * elements.size)
-            elements = elements.copyOf(newCapacity)
-        }
-        for (i in 0..<other.size)
-            elements[size + i] = other[i]
-        size = newSize
-    }
-
-    fun addAll(index: Int, other: ImperialMutableList<T>) {
+    override fun addAll(index: Int, other: ImperialMutableList<T>) {
         if (index !in 0..size)
             throw IndexOutOfBoundsException()
         val newSize = size + other.size
@@ -105,8 +94,11 @@ class ResizingArrayList<T>(private val initialCapacity: Int) : ImperialMutableLi
         for (i in size - 1 downTo index) {
             elements[i + other.size] = elements[i]
         }
-        for (i in index..<index + other.size)
-            elements[i] = other[i - index]
+        var i: Int = 0
+        for (element in other) {
+            elements[index + i] = element
+            i++
+        }
         size = newSize
     }
 }

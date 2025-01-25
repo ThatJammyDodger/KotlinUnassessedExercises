@@ -160,6 +160,31 @@ class SinglyLinkedList<T> : ImperialMutableList<T> {
 //        }
 //    }
 //    override fun iterator(): Iterator<T> = SinglyLinkedListIterator(this)
+
+    override fun addAll(index: Int, other: ImperialMutableList<T>) {
+        if (index !in 0..size)
+            throw IndexOutOfBoundsException()
+        if (other.size == 0)
+            return
+        if (index == 0) {
+            val newHead: Node<T>? = null
+            var tail: Node<T>? = newHead
+            for (element in other){
+                tail = Node(element, null)
+                tail = tail.next
+            }
+            tail!!.next = head
+            head = newHead
+        } else {
+            var (previous, current) = traverseTo(index - 1)
+            val oldTail = current
+            for (element in other) {
+                previous!!.next = Node(element, null)
+                previous = previous.next
+            }
+            previous!!.next = oldTail
+        }
+    }
 }
 
 // defining iterator using a separate class in this file, but

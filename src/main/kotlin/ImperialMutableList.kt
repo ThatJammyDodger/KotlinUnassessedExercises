@@ -12,9 +12,15 @@ interface ImperialMutableList<T> {
     operator fun set(index: Int, element: T)
     operator fun iterator() : Iterator<T>
 
-    fun addAll(other: ImperialMutableList<T>) {
+    fun addAll(other: ImperialMutableList<T>) = addAll(size, other)
+
+    fun addAll(index: Int, other: ImperialMutableList<T>) {
+        if (index !in 0..size)
+            throw IndexOutOfBoundsException()
+        var i: Int = 0
         for (element in other) {
-            add(element)
+            add(index + i, element)
+            i++
         }
     }
 }
